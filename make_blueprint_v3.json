@@ -1,0 +1,135 @@
+{
+  "name": "Tu Bep Phuong Nam - Content Bot V3 (With AI Image)",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          { "name": "x-api-key", "value": "sk-ant-api03-7VVsRdahJSU0VtjZ_hzpCyyLfKdzUvOQrgTZXE8KYhDHFaMXxdEilwL_hOVXtQ6qHMFDHhwORuMGX4wkmktY7A-yQ6K8AAA" },
+          { "name": "anthropic-version", "value": "2023-06-01" }
+        ],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "contentType": "application/json",
+        "data": "{\"model\":\"claude-opus-4-5\",\"max_tokens\":800,\"messages\":[{\"role\":\"user\",\"content\":\"Viet 1 bai dang Facebook cho Tu Bep Phuong Nam - tu bep canh kinh cao cap (80% nhom 20% inox), showroom TP.HCM. Yeu cau: 150-200 chu, tone than thien chuyen nghiep, co emoji, CTA keu goi nhan tin hoac den showroom, 5-7 hashtag. Chi viet bai, khong giai thich. Viet tieng Viet co dau.\"}]}"
+      },
+      "metadata": { "designer": { "x": 0, "y": 0 } }
+    },
+    {
+      "id": 2,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false },
+      "mapper": {
+        "url": "https://api.ideogram.ai/generate",
+        "method": "post",
+        "headers": [
+          { "name": "Api-Key", "value": "65fLzfR-IKLoRBBYN-TSRF43hukv1qX4tQkPqBXTmOzxguUOXBA6u1bUV74pWxQ0TDY5s3PQpRoPrf_3gGJ_Tw" }
+        ],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "contentType": "application/json",
+        "data": "{\"image_request\":{\"prompt\":\"Professional interior photography of a modern Vietnamese kitchen cabinet, premium aluminum and stainless steel with elegant glass doors, high-end showroom display, bright natural lighting, clean minimalist background, photorealistic 4K quality, luxury kitchen design\",\"model\":\"V_2\",\"aspect_ratio\":\"ASPECT_1_1\",\"style_type\":\"REALISTIC\"}}"
+      },
+      "metadata": { "designer": { "x": 300, "y": 0 } }
+    },
+    {
+      "id": 3,
+      "module": "facebook-pages:createPhotoPost",
+      "version": 1,
+      "parameters": { "__IMTCONN__": "DIEN_CONNECTION_ID_VAO_DAY" },
+      "mapper": {
+        "pageId": "DIEN_PAGE_ID_VAO_DAY",
+        "url": "{{2.data.data[1].url}}",
+        "message": "{{1.data.content[1].text}}"
+      },
+      "metadata": { "designer": { "x": 600, "y": 0 } }
+    },
+    {
+      "id": 4,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          { "name": "x-api-key", "value": "sk-ant-api03-7VVsRdahJSU0VtjZ_hzpCyyLfKdzUvOQrgTZXE8KYhDHFaMXxdEilwL_hOVXtQ6qHMFDHhwORuMGX4wkmktY7A-yQ6K8AAA" },
+          { "name": "anthropic-version", "value": "2023-06-01" }
+        ],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "contentType": "application/json",
+        "data": "{\"model\":\"claude-opus-4-5\",\"max_tokens\":700,\"messages\":[{\"role\":\"user\",\"content\":\"Viet script TikTok 60 giay cho Tu Bep Phuong Nam - tu bep canh kinh cao cap TP.HCM. Format: [0-5s] Hook / [5-15s] Van de / [15-45s] Giai phap / [45-55s] Showcase / [55-60s] CTA. Them CAPTION va 5 hashtag. Viet tieng Viet co dau.\"}]}"
+      },
+      "metadata": { "designer": { "x": 900, "y": 0 } }
+    },
+    {
+      "id": 5,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          { "name": "x-api-key", "value": "sk-ant-api03-7VVsRdahJSU0VtjZ_hzpCyyLfKdzUvOQrgTZXE8KYhDHFaMXxdEilwL_hOVXtQ6qHMFDHhwORuMGX4wkmktY7A-yQ6K8AAA" },
+          { "name": "anthropic-version", "value": "2023-06-01" }
+        ],
+        "bodyType": "raw",
+        "parseResponse": true,
+        "contentType": "application/json",
+        "data": "{\"model\":\"claude-opus-4-5\",\"max_tokens\":1000,\"messages\":[{\"role\":\"user\",\"content\":\"Viet script YouTube 3-5 phut cho Tu Bep Phuong Nam - tu bep canh kinh cao cap TP.HCM. Gom: TIEU DE SEO, MO TA VIDEO, SCRIPT day du Intro+Noi dung+Outro CTA. Viet tieng Viet co dau.\"}]}"
+      },
+      "metadata": { "designer": { "x": 1200, "y": 0 } }
+    },
+    {
+      "id": 6,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false },
+      "mapper": {
+        "url": "https://api.telegram.org/bot8634675191:AAEGhP_FmQHdVtg4ugGN3Y3TvO5LBd1mZpA/sendMessage",
+        "method": "post",
+        "headers": [],
+        "bodyType": "raw",
+        "parseResponse": false,
+        "contentType": "application/json",
+        "data": "{\"chat_id\":\"DIEN_CHAT_ID_VAO_DAY\",\"text\":\"SCRIPT TIKTOK\\n\\n{{4.data.content[1].text}}\\n\\nTu Bep Phuong Nam Bot\"}"
+      },
+      "metadata": { "designer": { "x": 1500, "y": -150 } }
+    },
+    {
+      "id": 7,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": false },
+      "mapper": {
+        "url": "https://api.telegram.org/bot8634675191:AAEGhP_FmQHdVtg4ugGN3Y3TvO5LBd1mZpA/sendMessage",
+        "method": "post",
+        "headers": [],
+        "bodyType": "raw",
+        "parseResponse": false,
+        "contentType": "application/json",
+        "data": "{\"chat_id\":\"DIEN_CHAT_ID_VAO_DAY\",\"text\":\"SCRIPT YOUTUBE\\n\\n{{5.data.content[1].text}}\\n\\nTu Bep Phuong Nam Bot\"}"
+      },
+      "metadata": { "designer": { "x": 1500, "y": 150 } }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "sequential": true
+    },
+    "zone": "eu2.make.com"
+  }
+}
