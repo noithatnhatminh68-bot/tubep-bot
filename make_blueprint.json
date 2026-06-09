@@ -1,0 +1,191 @@
+{
+  "name": "Tu Bep Phuong Nam - Content Bot",
+  "flow": [
+    {
+      "id": 1,
+      "module": "util:SetVariable2",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "name": "theme",
+        "scope": "roundtrip",
+        "value": "{{if(formatDate(now; \"d\") = \"1\"; \"Tu bep canh kinh cao cap - khai truong tuan moi\"; if(formatDate(now; \"d\") = \"2\"; \"Meo chon tu bep phu hop dien tich\"; if(formatDate(now; \"d\") = \"3\"; \"Showcase cong trinh khach hang\"; if(formatDate(now; \"d\") = \"4\"; \"Bao gia tu bep uu dai thang nay\"; if(formatDate(now; \"d\") = \"5\"; \"Uu dai cuoi tuan - dat hang nhan qua\"; if(formatDate(now; \"d\") = \"6\"; \"Du an noi bat trong tuan\"; \"Cam hung thiet ke khong gian bep\"))))))}}"
+      },
+      "metadata": {
+        "designer": { "x": 0, "y": 0 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 2,
+      "module": "util:SetVariable2",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "name": "session",
+        "scope": "roundtrip",
+        "value": "{{if(formatDate(now; \"H\") < 12; \"BUOI SANG 7:00\"; \"BUOI TOI 19:00\")}}"
+      },
+      "metadata": {
+        "designer": { "x": 200, "y": 0 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 3,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          { "name": "x-api-key", "value": "{{CLAUDE_API_KEY}}" },
+          { "name": "anthropic-version", "value": "2023-06-01" },
+          { "name": "content-type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "body": "{\"model\":\"claude-opus-4-5\",\"max_tokens\":800,\"messages\":[{\"role\":\"user\",\"content\":\"Viet 1 bai dang Facebook cho thuong hieu Tu Bep Phuong Nam (tu bep canh kinh cao cap, 80% nhom 20% inox, co showroom tai TP.HCM). Chu de: {{1.value}}. Yeu cau: 150-200 chu, tone gan gui chuyen nghiep, co emoji, cuoi bai co CTA keu goi nhan tin hoac den showroom, co 5 hashtag. Viet tieng Viet co dau.\"}]}"
+      },
+      "metadata": {
+        "designer": { "x": 400, "y": 0 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 4,
+      "module": "util:SetVariable2",
+      "version": 1,
+      "parameters": {},
+      "mapper": {
+        "name": "fb_content",
+        "scope": "roundtrip",
+        "value": "{{parseJSON(3.data).content[].text}}"
+      },
+      "metadata": {
+        "designer": { "x": 600, "y": 0 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 5,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "mapper": {
+        "url": "https://graph.facebook.com/v19.0/{{FB_PAGE_ID}}/feed",
+        "method": "post",
+        "headers": [],
+        "bodyType": "multipart",
+        "formData": [
+          { "key": "message", "value": "{{4.value}}" },
+          { "key": "access_token", "value": "{{FB_ACCESS_TOKEN}}" }
+        ]
+      },
+      "metadata": {
+        "designer": { "x": 800, "y": 0 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 6,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          { "name": "x-api-key", "value": "{{CLAUDE_API_KEY}}" },
+          { "name": "anthropic-version", "value": "2023-06-01" },
+          { "name": "content-type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "body": "{\"model\":\"claude-opus-4-5\",\"max_tokens\":700,\"messages\":[{\"role\":\"user\",\"content\":\"Viet script TikTok 60 giay cho Tu Bep Phuong Nam. Chu de: {{1.value}}. Format: [0-5s] Hook gay chu y / [5-15s] Van de khach hang / [15-45s] Giai phap + san pham / [45-55s] Showcase / [55-60s] CTA. Sau do viet Caption TikTok va 5 hashtag. Viet tieng Viet co dau.\"}]}"
+      },
+      "metadata": {
+        "designer": { "x": 800, "y": 150 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 7,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "mapper": {
+        "url": "https://api.anthropic.com/v1/messages",
+        "method": "post",
+        "headers": [
+          { "name": "x-api-key", "value": "{{CLAUDE_API_KEY}}" },
+          { "name": "anthropic-version", "value": "2023-06-01" },
+          { "name": "content-type", "value": "application/json" }
+        ],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "body": "{\"model\":\"claude-opus-4-5\",\"max_tokens\":1000,\"messages\":[{\"role\":\"user\",\"content\":\"Viet script YouTube 3-5 phut cho Tu Bep Phuong Nam. Chu de: {{1.value}}. Bao gom: Tieu de SEO, Mo ta video, Script day du (Intro 30s + Noi dung chinh + Outro CTA). Viet tieng Viet co dau.\"}]}"
+      },
+      "metadata": {
+        "designer": { "x": 800, "y": 300 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 8,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "mapper": {
+        "url": "https://api.telegram.org/bot{{TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "method": "post",
+        "headers": [],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "body": "{\"chat_id\":\"{{TELEGRAM_CHAT_ID}}\",\"text\":\"🎵 *SCRIPT TIKTOK* - {{2.value}}\n\n━━━━━━━━━━━━━━━━━━━━\n\n{{parseJSON(6.data).content[].text}}\n\n━━━━━━━━━━━━━━━━━━━━\n🏠 Tu Bep Phuong Nam Bot\",\"parse_mode\":\"Markdown\"}"
+      },
+      "metadata": {
+        "designer": { "x": 1000, "y": 150 },
+        "restore": {}
+      }
+    },
+    {
+      "id": 9,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": { "handleErrors": true },
+      "mapper": {
+        "url": "https://api.telegram.org/bot{{TELEGRAM_BOT_TOKEN}}/sendMessage",
+        "method": "post",
+        "headers": [],
+        "bodyType": "raw",
+        "contentType": "application/json",
+        "body": "{\"chat_id\":\"{{TELEGRAM_CHAT_ID}}\",\"text\":\"▶️ *SCRIPT YOUTUBE* - {{2.value}}\n\n━━━━━━━━━━━━━━━━━━━━\n\n{{parseJSON(7.data).content[].text}}\n\n━━━━━━━━━━━━━━━━━━━━\n🏠 Tu Bep Phuong Nam Bot\",\"parse_mode\":\"Markdown\"}"
+      },
+      "metadata": {
+        "designer": { "x": 1000, "y": 300 },
+        "restore": {}
+      }
+    }
+  ],
+  "metadata": {
+    "instant": false,
+    "version": 1,
+    "scenario": {
+      "roundtrips": 1,
+      "maxErrors": 3,
+      "autoCommit": true,
+      "autoCommitTriggerLast": true,
+      "sequential": false,
+      "confidential": false,
+      "dataloss": false,
+      "dlq": false,
+      "freshVariables": false
+    },
+    "designer": {
+      "orphans": []
+    },
+    "zone": "eu2.make.com"
+  }
+}
