@@ -1,0 +1,34 @@
+name: Tu Bep Content Bot
+
+on:
+  schedule:
+    - cron: '0 0 * * *'   # 7:00 sáng GMT+7 (= 00:00 UTC)
+    - cron: '0 12 * * *'  # 7:00 tối GMT+7 (= 12:00 UTC)
+  workflow_dispatch:       # Cho phép chạy thủ công khi cần
+
+jobs:
+  create-content:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Content Bot
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_ACCESS_TOKEN: ${{ secrets.FB_ACCESS_TOKEN }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python run_once.py
